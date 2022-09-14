@@ -22,7 +22,7 @@
             <el-icon>
               <location/>
             </el-icon>
-            <span>系统管理</span>
+            <span v-if="!isCollapse">系统管理</span>
           </template>
 
           <el-menu-item index="1-1">用户管理</el-menu-item>
@@ -188,6 +188,7 @@ function toggle() {
         .user-link {
           cursor: pointer;
           margin-top: 16px;
+          color: var(--el-color-primary);
         }
       }
     }
