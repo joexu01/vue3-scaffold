@@ -1,7 +1,14 @@
 <template>
-  <h1>Welcome Page</h1>
-  <el-button>Go Login</el-button>
-  <router-link to="/login">Go Login</router-link>
+  <div class="welcome">
+    <div class="content">
+      <div class="sub-title">欢迎体验</div>
+      <div class="title">Vue 3 Composition API</div>
+      <div class="desc">- 在 React 中对应 Hooks 函数！</div>
+
+    </div>
+    <div class="img"></div>
+
+  </div>
 </template>
 
 <script>
@@ -10,6 +17,41 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.welcome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 
+  .content {
+    position: relative;
+    bottom: 40px;
+
+    .sub-title {
+      font-size: 30px;
+      line-height: 42px;
+      color: #333;
+    }
+
+    .title {
+      font-size: 40px;
+      line-height: 62px;
+      color: #409eff;
+    }
+
+    .desc {
+      text-align: right;
+      font-size: 14px;
+      color: #999;
+    }
+  }
+
+  .img {
+    margin-left: 155px;
+    background-image: url("../assets/image/welcome.png");
+    width: 371px;
+    height: 438px;
+  }
+}
 </style>

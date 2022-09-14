@@ -10,7 +10,7 @@ const router = createRouter({
                 title: '首页',
                 requiresAuth: true
             },
-            component: () => import('../components/Home.vue'),
+            component: () => import('@/components/Home.vue'),
             children: [
                 {
                     name: 'welcome',
@@ -19,7 +19,7 @@ const router = createRouter({
                         title: '欢迎',
                         requiresAuth: true
                     },
-                    component: () => import('../views/Welcome.vue')
+                    component: () => import('@/views/Welcome.vue')
                 }
             ]
         },
@@ -30,7 +30,7 @@ const router = createRouter({
                 title: '登录',
                 requiresAuth: false
             },
-            component: () => import('../views/Login.vue')
+            component: () => import('@/views/Login.vue')
         }
     ]
 })
