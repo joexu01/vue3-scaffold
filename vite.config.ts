@@ -9,6 +9,16 @@ export default defineConfig({
                 '@': path.resolve(__dirname, './src')
             }
         },
+        // server: {
+        //     host: 'localhost',
+        //     port: 8880,
+        //     proxy: {
+        //         '/api': {
+        //             target: 'http://127.0.0.1:8880/api',
+        //             changeOrigin: true
+        //         }
+        //     }
+        // },
         plugins: [vue()]
     }
 )

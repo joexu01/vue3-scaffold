@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper">
     <div class="modal">
-      <el-form ref="loginForm" :model="user" status-icon :rules="rules">
+      <el-form ref="loginForm" :model="user" status-icon :rules="rules" v-loading="loading">
         <div class="title">登录</div>
 
         <el-form-item prop="username">
@@ -24,10 +24,15 @@
 </template>
 
 <script setup>
-import {shallowRef, reactive} from '@vue/reactivity'
-import {useRouter} from 'vue-router'
-import {login as userLogin} from '../api/user'
-import {User as UserIcon, Lock} from '@element-plus/icons-vue'
+import {shallowRef, reactive, ref} from '@vue/reactivity';
+import {useRouter} from 'vue-router';
+import {User as UserIcon, Lock} from '@element-plus/icons-vue';
+
+import {useUserStore} from "@/store";
+import {ElMessage} from "element-plus";
+// import {getToken} from "@/utils/auth.js";
+
+const userStore = useUserStore();
 
 let user = reactive({
   username: "",
@@ -54,14 +59,21 @@ let rules = {
 // const store = useStore()
 const router = useRouter();
 const loginForm = shallowRef();
+const loading = ref(false);
 
 function login(form) {
   form.validate((valid) => {
     if (valid) {
-      userLogin(user).then((resp) => {
-        // store.commit('saveUserInfo', resp)
-        console.log(resp)
-        router.push('/welcome')
+      loading.value = true;
+
+      userStore.login(this.user).then(()=>{
+        ElMessage.success('登陆成功')
+        router.push('/welcome');
+      }).catch((err)=>{
+        ElMessage.error('登录失败：'+err)
+      }).finally(()=>{
+        // console.log(getToken())
+        loading.value = false;
       })
     } else {
       return false

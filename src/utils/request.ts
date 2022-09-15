@@ -2,6 +2,7 @@ import axios, {AxiosRequestConfig, AxiosResponse, AxiosPromise} from 'axios'
 import config from '../config'
 import router from "../router";
 import {ElMessage} from "element-plus";
+import {getToken} from "@/utils/auth";
 
 const TOKEN_INVALID = '令牌过期，请重新登录'
 const NAVIGATION_FAILED = '跳转失败'
@@ -15,20 +16,22 @@ const service = axios.create({
 
 // 请求拦截
 service.interceptors.request.use((request) => {
-    // TODO: token 返回
+    let token = getToken();
     const headers = request.headers
     if (headers?.Authorization) {
-        headers.Authorization = 'Bearer Token';
+        headers.Authorization = 'Bearer ' + token;
     }
+    console.log(headers)
     return request;
 })
 
 // 响应拦截
 service.interceptors.response.use((resp) => {
-    const {code, data, msg} = resp.data;
-    if (code === 200) {
-        return data
-    } else if (code === 40001) {
+    const {errno, err_msg} = resp.data;
+    console.log("errno: ", errno)
+    if (errno === 0) {
+        return resp
+    } else if (errno === 40001) {
         ElMessage.error(TOKEN_INVALID)
         setTimeout(() => {
             router.push('/login')
@@ -38,8 +41,8 @@ service.interceptors.response.use((resp) => {
         }, 15000)
         return Promise.reject(TOKEN_INVALID)
     } else {
-        ElMessage.error(msg || NETWORK_ERROR)
-        return Promise.reject((msg || NETWORK_ERROR))
+        ElMessage.error(err_msg || NETWORK_ERROR)
+        return Promise.reject((err_msg || NETWORK_ERROR))
     }
 })
 
